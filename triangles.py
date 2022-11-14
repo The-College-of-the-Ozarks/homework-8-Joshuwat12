@@ -45,6 +45,9 @@ def input_Triangle():
 # New global functions
 def distance(p1, p2):
   return ((p1.x - p2.x)**2 + (p1.y - p2.y)**2) ** 0.5
+  
+def slope(p1, p2):
+  return (p1.y - p2.y) / (p1.x - p2.x)
 
 def perimeter(t):
   return distance(t.p1, t.p2) + distance(t.p1, t.p3) + distance(t.p2, t.p3)
@@ -59,6 +62,23 @@ def area(t):
 def centroid(t):
   return Point((t.p1.x + t.p2.x + t.p3.x) / 3, (t.p1.y + t.p2.y + t.p3.y) / 3)
 
+# Bonus
+def right(t):
+  if t.p1.x == t.p2.x:
+    return (t.p1.y == t.p3.y or t.p2.y == t.p3.y)
+  if t.p1.x == t.p3.x:
+    return (t.p1.y == t.p2.y or t.p3.y == t.p2.y)
+  if t.p2.x == t.p3.x:
+    return (t.p2.y == t.p1.y or t.p3.y == t.p1.y)
+  
+  s1 = slope(t.p1, t.p2)
+  s2 = slope(t.p1, t.p3)
+  s3 = slope(t.p2, t.p3)
+  return (s1 * s2 == -1 or s1 * s3 == -1 or s2 * s3 == -1)
+
+def degenerate(t):
+  return area(t) == 0
+
 
 t1 = input_Triangle()
 
@@ -66,3 +86,5 @@ print(t1)
 print("The triangle's perimeter is", perimeter(t1))
 print("The triangle's area is", area(t1))
 print("The triangle's centroid is", centroid(t1))
+print("Is it a right triangle?", right(t1))
+print("Is it degenerate?", degenerate(t1))
